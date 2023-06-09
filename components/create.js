@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,30 +6,48 @@ import {
   Button,
   Keyboard,
 } from "react-native";
+import { Formik } from "formik";
 
-export default function CreateToDo({ addTask }) {
-  const [input, setInput] = useState("");
-
+export default function CreateToDo({ addNewTask }) {
   return (
     <View>
-      <Text>Enter Task:</Text>
+      <Formik
+        initialValues={{ text: "", body: "" }}
+        onSubmit={(values, actions) => {
+          actions.resetForm();
+          addNewTask(values);
+        }}
+      >
+        {(props) => (
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholder="Review text"
+              onChangeText={props.handleChange("text")}
+              value={props.values.text}
+            />
 
-      <TextInput
-        onChangeText={(val) => setInput(val)}
-        style={styles.input}
-        placeholder="e.g. Going to the spa"
-      />
+            <TextInput
+              style={styles.input}
+              placeholder="Review body"
+              onChangeText={props.handleChange("body")}
+              value={props.values.body}
+              multiline
+            />
 
-      <View style={styles.btn}>
-        <Button
-          title="Add Task"
-          color="#000"
-          onPress={() => {
-            addTask(input);
-            Keyboard.dismiss();
-          }}
-        />
-      </View>
+            <View style={styles.btn}>
+              <Button
+                title="Add Task"
+                color="#000"
+                onPress={() => {
+                  props.handleSubmit();
+                  Keyboard.dismiss();
+                }}
+              />
+            </View>
+          </View>
+        )}
+      </Formik>
     </View>
   );
 }
@@ -40,9 +57,10 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderStyle: "solid",
     padding: 20,
-    marginTop: 5,
+    marginVertical: 10,
     borderColor: "coral",
     fontSize: 15,
+    borderRadius: 8,
   },
 
   btn: {
