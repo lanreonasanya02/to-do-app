@@ -19,7 +19,9 @@ export default function ToDo({ item, removeTask }) {
           </TouchableOpacity>
 
           <Text style={styles.modalHeading}>{item.text}:</Text>
-          <Text style={styles.modalBody}>{item.body ? item.body : "N/A"}</Text>
+          <Text style={styles.modalBody}>
+            {item.body ? item.body : "No description"}
+          </Text>
           <Text style={styles.modalBody}>{item.body}</Text>
           <Text style={styles.modalBody}>{item.body}</Text>
         </View>
@@ -84,6 +86,8 @@ const styles = StyleSheet.create({
 
   list: {
     fontSize: 20,
+    width: "80%",
+    paddingLeft: 10,
   },
 
   icons: {

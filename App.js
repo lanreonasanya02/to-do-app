@@ -19,21 +19,24 @@ export default function App() {
       text: "Go shopping",
       key: "1",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti mollitia officia nesciunt veniam numquam itaque magnam accusantium beatae laborum. Utotam rem laboriosam! Unde fuga quam dolor voluptatibus iusto placeat sint, dignissimos provident voluptatem obcaecati recusandae, maxime quasi maiores minima omnis nisi, veritatis eveniet. Earum consequatur tempore repellendus animi eius!",
+      priority: 4,
     },
     {
       text: "Do coding exercises",
       key: "2",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti mollitia officia nesciunt veniam numquam itaque magnam accusantium beatae laborum. Utotam rem laboriosam! Unde fuga quam dolor voluptatibus iusto placeat sint, dignissimos provident voluptatem obcaecati recusandae, maxime quasi maiores minima omnis nisi, veritatis eveniet. Earum consequatur tempore repellendus animi eius!",
+      priority: 5,
     },
     {
       text: "Clean the house",
       key: "3",
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti mollitia officia nesciunt veniam numquam itaque magnam accusantium beatae laborum. Utotam rem laboriosam! Unde fuga quam dolor voluptatibus iusto placeat sint, dignissimos provident voluptatem obcaecati recusandae, maxime quasi maiores minima omnis nisi, veritatis eveniet. Earum consequatur tempore repellendus animi eius!",
+      priority: 1,
     },
   ]);
 
   const addNewTask = (newtask) => {
-    newtask.key = Math.random().toFixed(4).toString();
+    newtask.key = Math.random().toFixed(2).toString();
     setTodos((prevTodos) => {
       return [newtask, ...prevTodos];
     });
@@ -43,21 +46,6 @@ export default function App() {
     setTodos((prevTodos) => {
       return prevTodos.filter((item) => item.key !== key);
     });
-  };
-
-  const addTask = function (text) {
-    if (text.length > 4) {
-      setTodos((prevTodos) => {
-        return [
-          { text, key: Math.random().toFixed(3).toString() },
-          ...prevTodos,
-        ];
-      });
-    } else {
-      Alert.alert("Too Short!", "Task cannot be less than 4 characters", [
-        { text: "Understood", onPress: () => console.log("Alert closed") },
-      ]);
-    }
   };
 
   return (

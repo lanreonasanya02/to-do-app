@@ -11,6 +11,7 @@ import { Formik } from "formik";
 export default function CreateToDo({ addNewTask }) {
   return (
     <View>
+      <Text style={styles.title}>Create Task:</Text>
       <Formik
         initialValues={{ text: "", body: "" }}
         onSubmit={(values, actions) => {
@@ -22,17 +23,24 @@ export default function CreateToDo({ addNewTask }) {
           <View>
             <TextInput
               style={styles.input}
-              placeholder="Review text"
+              placeholder="Task title"
               onChangeText={props.handleChange("text")}
               value={props.values.text}
             />
 
             <TextInput
+              // multiline
               style={styles.input}
-              placeholder="Review body"
+              placeholder="Task body"
               onChangeText={props.handleChange("body")}
               value={props.values.body}
-              multiline
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Task priority (1 - 5)"
+              onChangeText={props.handleChange("priority")}
+              value={props.values.priority}
             />
 
             <View style={styles.btn}>
@@ -53,6 +61,13 @@ export default function CreateToDo({ addNewTask }) {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "coral",
+    marginTop: 20,
+  },
+
   input: {
     borderWidth: 0.5,
     borderStyle: "solid",
