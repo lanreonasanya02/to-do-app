@@ -36,7 +36,7 @@ export default function App() {
   ]);
 
   const addNewTask = (newtask) => {
-    newtask.key = Math.random().toFixed(2).toString();
+    newtask.key = Math.random().toString();
     setTodos((prevTodos) => {
       return [newtask, ...prevTodos];
     });

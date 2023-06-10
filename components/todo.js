@@ -7,6 +7,22 @@ export default function ToDo({ item, removeTask }) {
 
   return (
     <View>
+      <TouchableOpacity onPress={() => setModalOpen(true)}>
+        <View style={styles.listContainer}>
+          <Text style={styles.list}>
+            Priority ({item.priority}) - {item.text}
+          </Text>
+
+          <TouchableOpacity onPress={() => removeTask(item.key)}>
+            <Text style={styles.icons}>
+              {/* <Entypo name="edit" size={20} color="coral" />{" "} */}
+              <MaterialIcons name="delete" size={26} color="coral" />
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+
+      {/* Modal */}
       <Modal visible={modalOpen} animationType="slide">
         <View style={styles.modalContainer}>
           <TouchableOpacity onPress={() => setModalOpen(false)}>
@@ -26,26 +42,32 @@ export default function ToDo({ item, removeTask }) {
           <Text style={styles.modalBody}>{item.body}</Text>
         </View>
       </Modal>
-
-      <TouchableOpacity onPress={() => setModalOpen(true)}>
-        <View style={styles.listContainer}>
-          <Text style={styles.list}>
-            Task {item.key} - {item.text}
-          </Text>
-
-          <TouchableOpacity onPress={() => removeTask(item.key)}>
-            <Text style={styles.icons}>
-              <Entypo name="edit" size={20} color="coral" />{" "}
-              <MaterialIcons name="delete" size={26} color="coral" />
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  listContainer: {
+    flexDirection: "row",
+    backgroundColor: "#eee",
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    marginVertical: 10,
+    borderRadius: 10,
+    justifyContent: "space-between",
+  },
+
+  list: {
+    fontSize: 20,
+    width: "80%",
+    paddingLeft: 10,
+  },
+
+  icons: {
+    flexDirection: "row",
+    columnGap: 20,
+  },
+
   modalContainer: {
     marginTop: 80,
     marginHorizontal: 20,
@@ -72,26 +94,5 @@ const styles = StyleSheet.create({
     marginLeft: 6,
     color: "coral",
     fontWeight: "bold",
-  },
-
-  listContainer: {
-    flexDirection: "row",
-    backgroundColor: "#eee",
-    paddingVertical: 20,
-    paddingHorizontal: 10,
-    marginVertical: 10,
-    borderRadius: 10,
-    justifyContent: "space-between",
-  },
-
-  list: {
-    fontSize: 20,
-    width: "80%",
-    paddingLeft: 10,
-  },
-
-  icons: {
-    flexDirection: "row",
-    columnGap: 20,
   },
 });

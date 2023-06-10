@@ -1,19 +1,27 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Button,
-  Keyboard,
-} from "react-native";
+import { StyleSheet, View, Text, TextInput, Keyboard } from "react-native";
 import { Formik } from "formik";
+import * as yup from "yup";
+import Button from "./button";
+
+const taskSchema = () =>
+  yup.object({
+    text: yup.string().required().min(4),
+    body: yup.string().min(8),
+    priority: yup
+      .string()
+      .required()
+      .test("urgency", "Value must be a number between 1 & 5", (val) => {
+        return Number(val) < 6 && Number(val) > 0;
+      }),
+  });
 
 export default function CreateToDo({ addNewTask }) {
   return (
     <View>
       <Text style={styles.title}>Create Task:</Text>
       <Formik
-        initialValues={{ text: "", body: "" }}
+        initialValues={{ text: "", body: "", priority: "" }}
+        validationSchema={taskSchema}
         onSubmit={(values, actions) => {
           actions.resetForm();
           addNewTask(values);
@@ -23,30 +31,53 @@ export default function CreateToDo({ addNewTask }) {
           <View>
             <TextInput
               style={styles.input}
-              placeholder="Task title"
+              placeholder="Task name"
               onChangeText={props.handleChange("text")}
               value={props.values.text}
+              onBlur={props.handleBlur("text")}
             />
 
+            <Text style={styles.errorText}>
+              {props.touched.text && props.errors.text}
+            </Text>
+
             <TextInput
-              // multiline
+              multiline
+              minHeight={60}
               style={styles.input}
-              placeholder="Task body"
+              placeholder="Description"
               onChangeText={props.handleChange("body")}
               value={props.values.body}
+              onBlur={props.handleBlur("body")}
             />
+            <Text style={styles.errorText}>
+              {props.touched.body && props.errors.body}
+            </Text>
 
             <TextInput
               style={styles.input}
-              placeholder="Task priority (1 - 5)"
+              placeholder="Urgency (1 - 5)"
               onChangeText={props.handleChange("priority")}
               value={props.values.priority}
+              keyboardType="numeric"
+              onBlur={props.handleBlur("priority")}
             />
+            <Text style={styles.errorText}>
+              {props.touched.priority && props.errors.priority}
+            </Text>
 
             <View style={styles.btn}>
-              <Button
+              {/* <Button
                 title="Add Task"
                 color="#000"
+                onPress={() => {
+                  props.handleSubmit();
+                  Keyboard.dismiss();
+                }}
+              /> */}
+
+              <Button
+                text="Create Task"
                 onPress={() => {
                   props.handleSubmit();
                   Keyboard.dismiss();
@@ -85,5 +116,10 @@ const styles = StyleSheet.create({
     width: 200,
     alignSelf: "center",
     borderRadius: 10,
+  },
+
+  errorText: {
+    color: "crimson",
+    fontStyle: "italic",
   },
 });
